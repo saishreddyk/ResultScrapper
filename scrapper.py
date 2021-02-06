@@ -6,6 +6,10 @@ from pandas import DataFrame
 
 class Scrapper:
     def __init__(self, url):
+        """
+        To initialise the results page and several much needed parameters
+        :param url: Url of the page
+        """
         self.url = url
         self.driver = webdriver.Chrome("chromedriver.exe")
         self.driver.get("https://www.osmania.ac.in/res07/20210211.jsp")
@@ -20,6 +24,13 @@ class Scrapper:
                          "1]/td/b/font/input[1]",
                     branch=1
                     ):
+        """
+        The main code to extract the data and organise it.
+
+        :param roll_no: Roll number to check the result
+        :param path: xpath of the text box for roll_no
+        :param branch: it or cse
+        """
 
         if roll_no > self.threshold[branch]:
             return
@@ -71,6 +82,11 @@ class Scrapper:
                 sleep(0.65)
 
     def convert_to_csv(self, branch):
+        """
+        The code to convert organised data into csv files, pandas library is used.
+
+        :param branch: cse or it (for file names)
+        """
         names = ["CSE_results.csv", "IT_results.csv"]
         self.results = {"ROLL_NO": self.roll_nos, "Name": self.names, "SGPA": self.sgpa}
         print(self.results)
